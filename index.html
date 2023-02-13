@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>PAYG Calc</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+  </head>
+
+  <body class="bg-gray-300 p-10">
+    <!--<h1 class="text-3xl font-bold text-center">My Page Title</h1>-->
+    <header class="bg-white p-5 shadow-md">
+      <h2 class="text-lg font-bold">PAYG Calc</h2>
+    </header>
+    <nav class="bg-gray-800 p-5">
+      <h3 class="text-lg font-bold text-white">Pick a term:</h3>
+      <div class="flex items-center justify-between">
+        <label class="text-white">
+          <input type="radio" name="term" value="3" class="mr-2" onclick="calculateLoan()" checked/>
+          3 Months
+        </label>
+        <label class="text-white">
+          <input type="radio" name="term" class="mr-2" value="6" class="mr-2" onclick="calculateLoan()"/>
+          6 Months
+        </label>
+      </div>
+    </nav>
+    <div class="p-5">
+      
+      <label><h3 class="text-lg font-bold">Price:</h3><input type="number" class="shadow-md p-2 bg-white" id="input_price" oninput="calculateLoan()"/></label>
+    </div>
+    <div class="p-6">
+      <h3 class="text-lg font-bold">Breakdown:</h3>
+      <div class="mt-2">
+        <div class="flex mb-2">
+          <div class="w-1/3 font-bold">Interest:</div>
+          <div class="w-2/3 text-right" id="interest"></div>
+        </div>
+        <div class="flex mb-2">
+          <div class="w-1/3 font-bold">Upfront %:</div>
+          <div class="w-2/3 text-right" id="upfront_percentage"></div>
+        </div>
+        <div class="flex mb-2">
+          <div class="w-1/3 font-bold">Upfront Amt:</div>
+          <div class="w-2/3 text-right" id="upfront_amount"></div>
+        </div>
+        <div class="flex mb-2">
+          <div class="w-1/3 font-bold">Loan Amt:</div>
+          <div class="w-2/3 text-right" id="loan_amount"></div>
+        </div>
+        <div class="flex mb-2">
+          <div class="w-1/3 font-bold">Weekly:</div>
+          <div class="w-2/3 text-right" id="weekly_repayment"></div>
+        </div>
+        <div class="flex mb-2">
+          <div class="w-1/3 font-bold">Total:</div>
+          <div class="w-2/3 text-right" id="total" class="font-medium"></div>
+        </div>
+      </div>
+      </div>
+    <script>
+      function calculateLoan() {
+        // Get user input
+        let input_price = document.getElementById("input_price").value;
+        // Determine interest rate based on term
+        let term = document.querySelector('input[name="term"]:checked').value;
+        let interest_rate;
+        if (term === "3") {
+          interest_rate = 0.10;
+        } else {
+          interest_rate = 0.075;
+        }
+        
+        // Calculate upfront payment
+        let upfront_percentage = 0.2;
+        let upfront_amount = input_price * upfront_percentage;
+  
+        // Calculate loan amount
+        let loan_amount = input_price - upfront_amount;
+  
+        // Calculate weekly repayment
+        let weekly_repayment;
+        if (term === "3") {
+            weekly_repayment = (((loan_amount * interest_rate)*3) + loan_amount) / 13;
+        } else {
+          weekly_repayment = (((loan_amount * interest_rate)*6) + loan_amount) / 26;
+        }
+  
+        // Calculate total
+        let total;
+        if (term === "3") {
+          total = (weekly_repayment * (13)) + upfront_amount;
+        } else {
+          total = (weekly_repayment * (26)) + upfront_amount;
+        }
+  
+        // Display results
+        document.getElementById("interest").innerHTML = (interest_rate*100).toFixed(1) + "%";
+        document.getElementById("upfront_percentage").innerHTML = (upfront_percentage*100).toFixed(0) + "%";
+        document.getElementById("upfront_amount").innerHTML = "₦"+upfront_amount.toLocaleString();
+        document.getElementById("loan_amount").innerHTML = "₦"+loan_amount.toLocaleString();
+        document.getElementById("weekly_repayment").innerHTML = "₦"+weekly_repayment.toFixed(0);
+        document.getElementById("total").innerHTML = "₦"+total.toLocaleString();
+      }
+
+
+    </script>
+
+  </body>
+
+<footer class="bg-gray-300 p-5 text-center">
+      &copy; Belingo 2023
+</footer>
+
+</html>
