@@ -67,9 +67,9 @@
         let term = document.querySelector('input[name="term"]:checked').value;
         let interest_rate;
         if (term === "3") {
-          interest_rate = 0.10;
+          interest_rate = 0.12;
         } else {
-          interest_rate = 0.075;
+          interest_rate = 0.08;
         }
         
         // Calculate upfront payment
@@ -96,7 +96,7 @@
         }
   
         // Display results
-        document.getElementById("interest").innerHTML = (interest_rate*100).toFixed(1) + "%";
+        document.getElementById("interest").innerHTML = (interest_rate*100).toFixed(0) + "%";
         document.getElementById("upfront_percentage").innerHTML = (upfront_percentage*100).toFixed(0) + "%";
         document.getElementById("upfront_amount").innerHTML = "₦"+upfront_amount.toLocaleString();
         document.getElementById("loan_amount").innerHTML = "₦"+loan_amount.toLocaleString();
@@ -110,7 +110,7 @@
   </body>
 
 <footer class="bg-gray-300 p-5 text-center">
-      &copy; Belingo 2023
+      &copy; Belingo '23
 </footer>
 
 </html>
